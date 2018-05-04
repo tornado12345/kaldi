@@ -8,7 +8,7 @@
 # i.e. write your own local/score.sh that will contain
 # 
 # steps/scoring/score_kaldi_wer.sh "$@"
-# steps/scoring/score_kaldi_cer.sh --stage 2 "@"
+# steps/scoring/score_kaldi_cer.sh --stage 2 "$@"
 #
 # NOTE it would work without the --stage 2, but this way its more effective
 # as the lattice decoding won't be run twice.
@@ -33,7 +33,7 @@ echo "$0 $@"  # Print the command line for logging
 . parse_options.sh || exit 1;
 
 if [ $# -ne 3 ]; then
-  echo "Usage: local/score.sh [--cmd (run.pl|queue.pl...)] <data-dir> <lang-dir|graph-dir> <decode-dir>"
+  echo "Usage: $0 [--cmd (run.pl|queue.pl...)] <data-dir> <lang-dir|graph-dir> <decode-dir>"
   echo " Options:"
   echo "    --cmd (run.pl|queue.pl...)      # specify how to run the sub-processes."
   echo "    --stage (0|1|2)                 # start scoring script from part-way through."
@@ -50,7 +50,7 @@ dir=$3
 symtab=$lang_or_graph/words.txt
 
 for f in $symtab $dir/lat.1.gz $data/text; do
-  [ ! -f $f ] && echo "score.sh: no such file $f" && exit 1;
+  [ ! -f $f ] && echo "$0: no such file $f" && exit 1;
 done
 
 

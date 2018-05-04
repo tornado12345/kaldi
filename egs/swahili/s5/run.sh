@@ -34,7 +34,7 @@ done
 # Training
 steps/train_mono.sh --nj 20 --cmd "$train_cmd" data/train data/lang exp/system1/mono
 # Graph compilation
-utils/mkgraph.sh --mono data/lang exp/system1/mono exp/system1/mono/graph
+utils/mkgraph.sh data/lang exp/system1/mono exp/system1/mono/graph
 
 # Decoding
 steps/decode.sh --nj 4 --cmd "$train_cmd" exp/system1/mono/graph  data/test exp/system1/mono/decode_test
@@ -146,7 +146,8 @@ for iter in 1 2 3 4; do
 done
 
 ## MBR
-cp -r -T exp/system1/sgmm2_5b2_mmi_b0.1/decode_test_it3{,.mbr}
+rm -r exp/system1/sgmm2_5b2_mmi_b0.1/decode_test_it3.mbr 2>/dev/null 
+cp -r exp/system1/sgmm2_5b2_mmi_b0.1/decode_test_it3{,.mbr}
 local/score_mbr.sh data/test data/lang exp/system1/sgmm2_5b2_mmi_b0.1/decode_test_it3.mbr
 
 ## SGMM+MMI+fMMI
